@@ -1,2 +1,2 @@
 # dotfiles
-configuration files
+configuration files and some scripts to make life easier
