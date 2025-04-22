@@ -7,7 +7,7 @@ if ! apt-get update; then
 fi
 
 # net tools
-if ! apt-get install -y curl python3 iproute2 iw iputils-ping wireguard; then
+if ! apt-get install -y curl python3 iproute2 iw iputils-ping tcpdump wireguard; then
     echo "apt-get install curl python3 iproute2 iw iputils-ping wireguard failed"
     exit 1
 fi
