@@ -6,16 +6,20 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
+# require dotfiles/home
 dotfiles_dir="$(pwd)/home"
 if [ ! -d "$dotfiles_dir" ]; then
     echo "Directory \"$dotfiles_dir\" does not exist"
     exit 1
 fi
-
+updated=0
 find "$dotfiles_dir" -type f | while read -r entry; do
     echo "Symlink: $entry <-- $HOME/$(basename "$entry")"
     if ! ln -sf "$entry" "$HOME/$(basename "$entry")"; then
         echo "Failed: $(basename "$entry")"
         exit 1
+    else
+        ( updated++ )
     fi
 done
+echo "Symlinks created: $updated"
