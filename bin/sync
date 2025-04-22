@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# require sudo
+if [ "$EUID" -ne 0 ]; then
+    echo "root required, try again with sudo"
+    exit
+fi
+
+# synchronize ./home/* with their respective homes
+dotfiles_dir="../home"
+
+for entry in "$dotfiles_dir"/*; do
+    echo "[dry run] Syncing $entry"
+    # ln -sf $entry $HOME/$(basename $entry) # create symlink
+done
