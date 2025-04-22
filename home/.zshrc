@@ -118,4 +118,3 @@ export PATH=$PATH:$GOPATH/bin
 export PATH="$PATH:/usr/local/bin/code"
 
 alias mp="multipass"
-
