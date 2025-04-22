@@ -6,10 +6,16 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
-# synchronize ./home/* with their respective homes
-dotfiles_dir="../home"
+# require do
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <dotfiles_dir>"
+    echo "Defaults:"
+    echo "  dotfiles_dir=../home"; echo
+else
+    dotfiles_dir="$1"
+fi
 
-for entry in "$dotfiles_dir"/*; do
-    echo "[dry run] Syncing $entry"
-    # ln -sf $entry $HOME/$(basename $entry) # create symlink
+find "$dotfiles_dir" -type f | while read -r entry; do
+    # echo "[dry run] Syncing $(basename "$entry")"
+    ln -sf "$entry" "$HOME/$(basename "$entry")"
 done
