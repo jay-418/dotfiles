@@ -6,16 +6,16 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
-# require do
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <dotfiles_dir>"
-    echo "Defaults:"
-    echo "  dotfiles_dir=../home"; echo
-else
-    dotfiles_dir="$1"
+dotfiles_dir="$(pwd)/home"
+if [ ! -d "$dotfiles_dir" ]; then
+    echo "Directory \"$dotfiles_dir\" does not exist"
+    exit 1
 fi
 
 find "$dotfiles_dir" -type f | while read -r entry; do
-    # echo "[dry run] Syncing $(basename "$entry")"
-    ln -sf "$entry" "$HOME/$(basename "$entry")"
+    echo "Symlink: $entry <-- $HOME/$(basename "$entry")"
+    if ! ln -sf "$entry" "$HOME/$(basename "$entry")"; then
+        echo "Failed: $(basename "$entry")"
+        exit 1
+    fi
 done
